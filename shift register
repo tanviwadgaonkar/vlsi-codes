@@ -1,0 +1,64 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    21:30:51 11/06/2025 
+-- Design Name: 
+-- Module Name:    sregister - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity sregister is
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           datain : in  STD_LOGIC_VECTOR (3 downto 0);
+           sel : in  STD_LOGIC_VECTOR (1 downto 0);
+           sl_in : in  STD_LOGIC;
+           sr_in : in  STD_LOGIC;
+           dataout : out  STD_LOGIC_VECTOR (3 downto 0));
+end sregister;
+
+architecture Behavioral of sregister is
+
+begin
+process(clk,reset)
+variable TEMP:STD_LOGIC_VECTOR(3 downto 0);
+begin
+if reset='1' then
+TEMP:="0000";
+elsif clk'event and clk = '1' then
+case sel is
+when "11"=>TEMP:=datain;
+when "01"=>TEMP:=TEMP(2 downto 0)& sl_in;
+when "10"=>TEMP:=sr_in&TEMP(3 downto 1);
+when others=>NULL;
+end case;
+end if;
+dataout<=TEMP;
+end process;
+
+
+
+end Behavioral;
+
